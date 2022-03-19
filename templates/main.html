@@ -2,12 +2,19 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Weather Forecast</title>
+        <title>Weather Actual vs. Forecast</title>
     </head>
 
+    <form action="/" method = "POST">
+        <p>Choose City <input type = "text" name = city /></p>
+        <p><input type = "submit" value = "Submit" /></p>
+    </form>
 
-
-
+    <body>
+    {% for key,value in weather_dict.items() %}
+    <h3> {{key}}: {{value}}</h3>
+    {% endfor %}
+    </body>
 
 
 </html>
