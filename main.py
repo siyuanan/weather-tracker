@@ -11,6 +11,15 @@ API_KEY = "03b8c4d4af0e87a4c9ac54e1c7b30517"
 
 city_list = ['Chicago', 'West Des Moines', 'Seattle']
 
+def get_current():
+    # get current weather for the cities in city_list
+    # then save the data to BigQuery table
+    return
+
+def get_forecast():
+    # get most recent forecast
+    # save the data to BigQuery table
+    return
 
 @app.route("/", methods=['GET', 'POST'])
 def home_page():
