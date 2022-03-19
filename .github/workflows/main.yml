@@ -1,24 +1,24 @@
-# .github/workflows/deploy.yml
-name: Deploy to Cloud Run
+# .github/workflows/dev.yml
+name: Deploy to Cloud Run Dev
 on:
   push:
     branches:
       - main
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: weather-tracker
+  APP_ID: mobile-app-dev
   RUN_REGION: us-west1
   SA_KEY_JSON: ${{ secrets.GCP_KEY }}
 jobs:
   deploy:
-    name: Deploy to Cloud Run
+    name: Deploy to Cloud Run w Dev
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, 'deploy')"
     steps:
       - uses: actions/checkout@v2
 
       # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@v0
         with:
           version: "290.0.1"
           service_account_key: ${{ secrets.GCP_KEY }}
