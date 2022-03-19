@@ -6,12 +6,12 @@ on:
       - main
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: mobile-app-dev
+  APP_ID: weather-tracker
   RUN_REGION: us-west1
   SA_KEY_JSON: ${{ secrets.GCP_KEY }}
 jobs:
   deploy:
-    name: Deploy to Cloud Run w Dev
+    name: Deploy to Cloud Run
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, 'deploy')"
     steps:
