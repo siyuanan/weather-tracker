@@ -19,7 +19,7 @@ city_list = ['Chicago', 'West Des Moines', 'Seattle']
 @app.route("/", methods = ['GET', 'POST'])
 def home_page():
     # get input from user
-    city = request.form.get('city')
+    city = str(request.form.get('city'))
     if city not in city_list:
         city_list.append(city)
         table_id = f"{project_id}.{dataset_id}.city"
