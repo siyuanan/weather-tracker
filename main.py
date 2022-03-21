@@ -23,9 +23,12 @@ def home_page():
     if city not in city_list:
         city_list.append(city)
         table_id = f"{project_id}.{dataset_id}.city"
+        city_df = pd.DataFrame({
+            'city': city
+        }, index = [0])
         client = bigquery.Client(project = project_id)
         job = client.load_table_from_dataframe(
-            city, table_id
+            city_df, table_id
         )
         job.result()
 
