@@ -1,3 +1,5 @@
+# function on Google Cloud Functions
+# to gather actual weather data and load into BigQuery table
 import os
 import requests
 import json
@@ -6,15 +8,17 @@ import pandas as pd
 import datetime
 from google.cloud import bigquery
 
-project_id  = 'weather-tracker-344603'
-dataset_id  = 'weather_data'
+project_id = 'weather-tracker-344603'
+dataset_id = 'weather_data'
 current_table = 'actual'
 forecast_table = 'forecast'
 
-city_list = ['Chicago', 'West Des Moines', 'Seattle']
-# city_list = ['Los Angeles', 'Las Vegas']
+# city_list = ['Chicago', 'West Des Moines', 'Seattle']
+city_list = ['Los Angeles', 'Las Vegas']
 
-def get_current_weather():
+# the two inputs are not used in the function
+# but without the two inputs, the function cannot run on cloud function
+def current_weather(event, data):
     # get current weather for the cities in city_list
     # then save the data to BigQuery table
     # run every 3 hours
@@ -54,7 +58,7 @@ def get_current_weather():
         # print(row)
 
         # Construct a BigQuery client object.
-        client = bigquery.Client()
+        client = bigquery.Client(project = project_id)
         # Make an API request.
         job = client.load_table_from_dataframe(
             row, table_id
@@ -62,3 +66,15 @@ def get_current_weather():
         job.result()  # Wait for the job to complete.
 
     return True
+
+
+def get_forecast(event, data):
+    # get most recent forecast
+    # save the data to BigQuery table
+    # run every 3 hours
+    table_id = f"{project_id}.{dataset_id}.{forecast_table}"
+
+    for city in city_list:
+        url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid=03b8c4d4af0e87a4c9ac54e1c7b30517"
+        r_c = requests.get(url).json()
+    return
