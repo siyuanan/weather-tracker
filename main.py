@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import datetime
 from flask import Flask, render_template, request, jsonify
+from dateutil.relativedelta import relativedelta
 from google.cloud import bigquery
 
 app = Flask(__name__)
@@ -13,11 +14,21 @@ API_KEY = '03b8c4d4af0e87a4c9ac54e1c7b30517'
 project_id = 'weather-tracker-344603'
 dataset_id = 'weather_data'
 
-city_list = ['Chicago', 'West Des Moines', 'Seattle']
+# city_list = ['Chicago', 'West Des Moines', 'Seattle']
 
 
 @app.route("/", methods = ['GET', 'POST'])
 def home_page():
+
+    # get current available city in the data
+    client = bigquery.Client(project=project_id)
+    query = f'''
+    SELECT * FROM {project_id}.{dataset_id}.city
+    '''
+    query_job = client.query(query)
+    data = query_job.to_dataframe()
+    city_list = data['city'].to_list()
+
     # get input from user
     city = str(request.form.get('city'))
     if city not in city_list:
