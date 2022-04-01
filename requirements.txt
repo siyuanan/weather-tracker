@@ -11,3 +11,4 @@ black==21.12b0
 gunicorn==20.0.4
 google-cloud-bigquery
 pyarrow
+db-dtypes

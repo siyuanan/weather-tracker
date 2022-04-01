@@ -26,8 +26,8 @@ def home_page():
     SELECT * FROM {project_id}.{dataset_id}.city
     '''
     query_job = client.query(query)
-    data = query_job.to_dataframe()
-    city_list = data['city'].to_list()
+    cities = query_job.to_dataframe()
+    city_list = [c for c in cities['city'].to_list() if c != 'None']
 
     # get input from user
     city = str(request.form.get('city'))
