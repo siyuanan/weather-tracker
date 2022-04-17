@@ -11,7 +11,7 @@
     </form>
 
     <h3>
-    Current Weather in {{city | safe}}
+    Current Weather in {{city_name | safe}}
     </h3>
     <body>
     {% for key,value in weather_dict.items() %}
@@ -20,7 +20,7 @@
     </body>
 
     <h3>
-    Recent Trend in {{city | safe}}
+    Recent Trend in {{city_name | safe}}
     </h3>
     <body>
     {% for table in table1 %}

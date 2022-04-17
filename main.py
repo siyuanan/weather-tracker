@@ -86,7 +86,8 @@ def home_page():
     return render_template("main.html",
                            weather_dict = current,
                            table1 = [current_df.to_html(classes='data')],
-                           title1 = current_df.columns.values
+                           title1 = current_df.columns.values,
+                           city_name = city
                            )
 
 

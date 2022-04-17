@@ -1,5 +1,5 @@
 # function on Google Cloud Functions
-# to gather actual weather data and load into BigQuery table
+# to gather actual and forecast weather data and load into BigQuery table
 import os
 import requests
 import json
