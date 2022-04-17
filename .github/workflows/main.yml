@@ -1,5 +1,5 @@
 # .github/workflows/dev.yml
-name: Deploy to Cloud Run Dev
+name: Deploy to Cloud Run
 on:
   push:
     branches:

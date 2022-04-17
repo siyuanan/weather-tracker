@@ -46,6 +46,7 @@ def home_page():
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}"
     r_c = requests.get(url).json()
 
+    # current weather from the API
     current = {
         'city': r_c['name'],
         'city_id': r_c['id'],
@@ -72,7 +73,21 @@ def home_page():
         'country': r_c['sys']['country']
     }
 
-    return render_template("main.html", weather_dict = current)
+    # recent temperature trend of the city
+    query = f'''
+    SELECT city, time, temp, temp_min, temp_max, feels_like
+    FROM {project_id}.{dataset_id}.actual
+    WHERE city = '{city}'
+    ORDER BY time
+    '''
+    query_job = client.query(query)
+    current_df = query_job.to_dataframe()
+
+    return render_template("main.html",
+                           weather_dict = current,
+                           table1 = [current_df.to_html(classes='data')],
+                           title1 = current_df.columns.values
+                           )
 
 
 if __name__ == "__main__":
