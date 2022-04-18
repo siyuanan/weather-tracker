@@ -30,4 +30,51 @@
     </body>
 
 
+    <h2> Billing Actual and Forecast </h2>
+    <body>
+        <div>
+            <canvas id="Chart1" width = "900" height = "500"></canvas>
+        </div>
+        <script>
+            var ctx2 = document.getElementById('Chart1').getContext('2d');
+            var chart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: {{ labels| safe }},
+                    datasets: [{
+                        label: 'actual temperature',
+                        data: {{ value1 | safe }},
+                        borderWidth: 5,
+                        fill: false,
+                        borderColor: '#fc8403'
+                    }, {
+                        label: 'forecast temperature',
+                        data: {{ value2 | safe }},
+                        borderWidth: 5,
+                        fill: false,
+                        borderColor: '#6b9362'
+                    }
+                    ],
+
+                },
+                options: {
+                    responsive: false,
+                    title: {
+                        display: true,
+                        text: 'temperature'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: true
+                    }}
+            });
+
+        </script>
+
+    </body>
+
+
+
+
+
 </html>
