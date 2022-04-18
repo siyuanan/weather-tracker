@@ -29,6 +29,9 @@ def home_page():
     cities = query_job.to_dataframe()
     city_list = [c for c in cities['city'].to_list() if c != 'None']
 
+    # default city
+    city = 'Chicago'
+
     # get input from user
     city = str(request.form.get('city'))
     if city not in city_list:
