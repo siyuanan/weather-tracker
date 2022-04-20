@@ -85,7 +85,7 @@ def home_page():
     '''
     query_job = client.query(query)
     actual = query_job.to_dataframe()
-    actual['time'] = actual.time.dt.tz_convert(tz='US/Central').dt.tz_localize(None)
+    actual['time'] = actual['time'].dt.tz_convert(tz='US/Central').dt.tz_localize(None)
     actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
 
     query = f'''
