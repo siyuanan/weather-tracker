@@ -86,6 +86,7 @@ def home_page():
     query_job = client.query(query)
     actual = query_job.to_dataframe()
     actual['time'] = actual.time.dt.tz_convert(tz='US/Central').dt.tz_localize(None)
+    actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
 
     query = f'''
     SELECT created_at, forecast_time AS time, temp AS forecast_temp
@@ -98,10 +99,11 @@ def home_page():
     forecast = forecast[forecast['time'] >= datetime.datetime.now()]
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
+    forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
 
     data = actual.merge(forecast, on='time', how='outer').fillna(0)
 
-    labels = data['time'].dt.strftime("%Y-%m-%d %H:00")
+    labels = list(data['time'])
     value1 = data['actual_temp'].values.tolist()
     value2 = data['forecast_temp'].values.tolist()
 
