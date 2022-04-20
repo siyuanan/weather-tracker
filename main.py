@@ -114,9 +114,9 @@ def home_page():
     #                        value1 = value1,
     #                        value2 = value2
     #                        )
-    labels = actual['time'].astype(str)
-    value1 = actual['actual_temp']
-    value2 = actual['actual_temp']
+    labels = list(actual['time'].astype(str))
+    value1 = actual['actual_temp'].values.tolist()
+    value2 = actual['actual_temp'].values.tolist()
     return render_template("main.html",
                            weather_dict = current,
                            table1 = [actual.to_html(classes = 'data')],
