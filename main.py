@@ -85,7 +85,7 @@ def home_page():
     '''
     query_job = client.query(query)
     actual = query_job.to_dataframe()
-    # actual['time'] = actual.time.dt.tz_convert(tz='US/Central').dt.tz_localize(None)
+    actual['time'] = actual.time.dt.tz_convert(tz='US/Central').dt.tz_localize(None)
 
     query = f'''
     SELECT created_at, forecast_time AS time, temp AS forecast_temp
@@ -99,33 +99,33 @@ def home_page():
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
 
-    # data = actual.merge(forecast, on='time', how='outer')
-    #
-    # labels = data['time'].dt.strftime("%Y-%m-%d %H:00")
-    # value1 = data['actual_temp'].values.tolist()
-    # value2 = data['forecast_temp'].values.tolist()
+    data = actual.merge(forecast, on='time', how='outer')
 
-    # return render_template("main.html",
-    #                        weather_dict = current,
-    #                        table1 = [data.to_html(classes = 'data')],
-    #                        title1 = data.columns.values,
-    #                        city_name = city,
-    #                        labels = labels,
-    #                        value1 = value1,
-    #                        value2 = value2
-    #                        )
-    labels = list(actual['time'].astype(str))
-    value1 = actual['actual_temp'].values.tolist()
-    value2 = actual['actual_temp'].values.tolist()
+    labels = data['time'].dt.strftime("%Y-%m-%d %H:00")
+    value1 = data['actual_temp'].values.tolist()
+    value2 = data['forecast_temp'].values.tolist()
+
     return render_template("main.html",
                            weather_dict = current,
-                           table1 = [actual.to_html(classes = 'data')],
-                           title1 = actual.columns.values,
+                           table1 = [data.to_html(classes = 'data')],
+                           title1 = data.columns.values,
                            city_name = city,
                            labels = labels,
                            value1 = value1,
                            value2 = value2
                            )
+    # labels = list(actual['time'].astype(str))
+    # value1 = actual['actual_temp'].values.tolist()
+    # value2 = actual['actual_temp'].values.tolist()
+    # return render_template("main.html",
+    #                        weather_dict = current,
+    #                        table1 = [actual.to_html(classes = 'data')],
+    #                        title1 = actual.columns.values,
+    #                        city_name = city,
+    #                        labels = labels,
+    #                        value1 = value1,
+    #                        value2 = value2
+    #                        )
 
 
 if __name__ == "__main__":
