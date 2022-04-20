@@ -99,7 +99,7 @@ def home_page():
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
 
-    data = actual.merge(forecast, on='time', how='outer')
+    data = actual.merge(forecast, on='time', how='outer').fillna(0)
 
     labels = data['time'].dt.strftime("%Y-%m-%d %H:00")
     value1 = data['actual_temp'].values.tolist()
