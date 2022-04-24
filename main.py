@@ -33,7 +33,7 @@ def home_page():
     city = 'Chicago'
 
     # get input from user
-    # city = str(request.form.get('city'))
+    city = str(request.form.get('city'))
     if city not in city_list:
         city_list.append(city)
         table_id = f"{project_id}.{dataset_id}.city"
