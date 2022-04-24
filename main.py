@@ -103,7 +103,7 @@ def home_page():
     forecast = forecast[forecast['time'] >= datetime.datetime.now()]
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
-    forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
+    # forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
 
     data = actual[['time', 'actual_temp']].merge(forecast, on='time', how='outer').fillna(0)
 
