@@ -85,7 +85,7 @@ def home_page():
     '''
     query_job = client.query(query)
     actual = query_job.to_dataframe()
-    actual['time'] = actual['time'].dt.tz_convert(tz='US/Central').dt.tz_localize(None)
+    actual['time'] = actual['time'].dt.tz_convert(tz = 'US/Central').dt.tz_localize(None)
     actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
 
     query = f'''
@@ -116,18 +116,6 @@ def home_page():
                            value1 = value1,
                            value2 = value2
                            )
-    # labels = list(actual['time'].astype(str))
-    # value1 = actual['actual_temp'].values.tolist()
-    # value2 = actual['actual_temp'].values.tolist()
-    # return render_template("main.html",
-    #                        weather_dict = current,
-    #                        table1 = [actual.to_html(classes = 'data')],
-    #                        title1 = actual.columns.values,
-    #                        city_name = city,
-    #                        labels = labels,
-    #                        value1 = value1,
-    #                        value2 = value2
-    #                        )
 
 
 if __name__ == "__main__":

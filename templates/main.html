@@ -12,25 +12,13 @@
         <p><input type = "submit" value = "Submit" /></p>
     </form>
 
-    <h3>
-    Current Weather in {{city_name | safe}}
-    </h3>
-    <body>
-    {% for key,value in weather_dict.items() %}
-    <h3> {{key}}: {{value}}</h3>
-    {% endfor %}
-    </body>
+    <h3>Current Weather in {{city_name | safe}}</h3>
+
+    <h3> Temperature: {{ weather_dict['temp'] | safe }}</h3>
 
     <h3>
     Recent Trend in {{city_name | safe}}
     </h3>
-    <body>
-    {% for table in table1 %}
-        {{title1[loop.index]}}
-        {{ table|safe }}
-    {% endfor %}
-    </body>
-
 
     <h2> Temperature Actual and Forecast </h2>
     <body>
