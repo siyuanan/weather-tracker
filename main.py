@@ -4,6 +4,7 @@ import json
 import numpy as np
 import pandas as pd
 import datetime
+import re
 from flask import Flask, render_template, request, jsonify
 from dateutil.relativedelta import relativedelta
 from google.cloud import bigquery
@@ -78,15 +79,18 @@ def home_page():
 
     # recent temperature trend of the city
     query = f'''
-    SELECT time, temp AS actual_temp
+    SELECT time AS time_utc, temp AS actual_temp
     FROM {project_id}.{dataset_id}.actual
     WHERE city = '{city}'
     ORDER BY time
     '''
     query_job = client.query(query)
     actual = query_job.to_dataframe()
-    actual['time'] = actual['time'].dt.tz_convert(tz = 'US/Central').dt.tz_localize(None)
-    actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
+    actual['time_list'] = actual['time_utc'].astype(str).apply(lambda x: re.split(' |:|-', x))
+    actual['time'] = actual['time_list'].apply(
+        lambda x: datetime.datetime(int(x[0]), int(x[1]), int(x[2]), int(x[3])) + relativedelta(hours=-5))
+    # actual['time'] = actual['time'].dt.tz_convert(tz = 'US/Central').dt.tz_localize(None)
+    # actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
 
     query = f'''
     SELECT created_at, forecast_time AS time, temp AS forecast_temp
@@ -101,7 +105,7 @@ def home_page():
     forecast.drop('created_at', axis=1, inplace=True)
     forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
 
-    data = actual.merge(forecast, on='time', how='outer').fillna(0)
+    data = actual[['time', 'actual_temp']].merge(forecast, on='time', how='outer').fillna(0)
 
     labels = list(data['time'])
     value1 = data['actual_temp'].values.tolist()
