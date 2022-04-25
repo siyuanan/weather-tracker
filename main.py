@@ -107,7 +107,7 @@ def home_page():
 
     data = actual[['time', 'actual_temp']].merge(forecast, on='time', how='outer').fillna(0)
 
-    labels = list(data['time'])
+    labels = list(data['time'].astype(str))
     value1 = data['actual_temp'].values.tolist()
     value2 = data['forecast_temp'].values.tolist()
 
