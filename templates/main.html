@@ -12,12 +12,12 @@
         <p><input type = "submit" value = "Submit" /></p>
     </form>
 
-    <h2>Current Weather in {{city_name | safe}}</h2>
+    <h2>Current Weather in {{ city_name | safe }}</h2>
 
     <h3> Temperature: {{ weather_dict['temp'] | safe }}</h3>
 
     <h3>
-    Recent Trend in {{city_name | safe}}
+    Recent Trend in {{ city_name | safe }}
     </h3>
 
     <h2> Temperature Actual and Forecast </h2>
