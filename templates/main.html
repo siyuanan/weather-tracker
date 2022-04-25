@@ -16,13 +16,13 @@
 
     <body>{{ weather_dict['weather'] | safe }}: {{ weather_dict['weather_dec'] | safe }}</body>
 
-    <h3> Temperature: {{ weather_dict['temp'] | safe }}</h3>
+    <h3> Temperature: {{ weather_dict['temp'] | safe }} °C</h3>
 
     <body>
     <img src="http://openweathermap.org/img/w/{{ weather_dict['weather_icon'] }}.png" alt="Image">
     </body>
 
-    <h3> Feels like: {{ weather_dict['feels_like'] | safe }}</h3>
+    <h3> Feels like: {{ weather_dict['feels_like'] | safe }} °C</h3>
 
 <!--    <body>-->
 <!--        {% for table in table1 %}-->
