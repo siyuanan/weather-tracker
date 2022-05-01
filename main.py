@@ -8,6 +8,7 @@ import re
 from flask import Flask, render_template, request, jsonify
 from dateutil.relativedelta import relativedelta
 from google.cloud import bigquery
+from statsmodels.tsa.arima.model import ARIMA
 
 app = Flask(__name__)
 

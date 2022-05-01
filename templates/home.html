@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <style>
+        body
+        {
+            background-image:url({{ url_for('static', filename = 'home.jpg') }})
+        }
+    </style>
 </head>
+<h1>Type in city name to see current weather and forecast</h1>
+
+<!--<body>-->
+<!--    <img src = "{{ url_for('static', filename = 'home.jpg') }}" height = '1000', width = 2000>-->
+<!--</body>-->
+
 <body>
 <form action="/forecast" method = "POST">
     <p>Choose City <input type = "text" name = city /></p>
