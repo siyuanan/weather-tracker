@@ -13,7 +13,10 @@
         }
     </style>
 </head>
-<h1>Type in city name to see current weather and forecast</h1>
+
+<h1 style="color: #F0FFFF;">
+    Type in city name to see current weather and forecast
+</h1>
 
 <!--<body>-->
 <!--    <img src = "{{ url_for('static', filename = 'home.jpg') }}" height = '1000', width = 2000>-->
@@ -21,7 +24,7 @@
 
 <body>
 <form action="/forecast" method = "POST">
-    <p>Choose City <input type = "text" name = city /></p>
+    <p>City Name<input type = "text" name = city style = "color: #F0FFFF"/></p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 </body>
