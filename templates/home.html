@@ -6,7 +6,10 @@
     <style>
         body
         {
-            background-image:url({{ url_for('static', filename = 'home.jpg') }})
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         background-size: cover;
+         background-image:url({{ url_for('static', filename = 'home.jpg') }})
         }
     </style>
 </head>
