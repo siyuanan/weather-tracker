@@ -1,9 +1,9 @@
 # .github/workflows/dev.yml
-name: Deploy to Cloud Run
+name: Deploy to Cloud Run Dev
 on:
   push:
     branches:
-      - main
+      - dev
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   APP_ID: weather-tracker
@@ -11,7 +11,7 @@ env:
   SA_KEY_JSON: ${{ secrets.GCP_KEY }}
 jobs:
   deploy:
-    name: Deploy to Cloud Run
+    name: Deploy to Cloud Run Dev
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, 'deploy')"
     steps:
