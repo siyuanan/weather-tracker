@@ -25,9 +25,8 @@ def home():
     # get current available city in the data
     client = bigquery.Client(project=project_id)
     query = f'''
-        SELECT * FROM {project_id}.{dataset_id}.city
-        WHERE city != 'None'
-        '''
+    SELECT * FROM {project_id}.{dataset_id}.city
+    '''
     query_job = client.query(query)
     cities = query_job.to_dataframe()
     city_list = [c for c in cities['city'].to_list() if c != 'None']
@@ -48,7 +47,7 @@ def home():
 
 
 @app.route("/forecast", methods = ['GET', 'POST'])
-def forecast():
+def weather_forecast():
     # default city
     city = 'Chicago'
 
@@ -86,6 +85,7 @@ def forecast():
     }
 
     # recent temperature trend of the city
+    client = bigquery.Client(project=project_id)
     query = f'''
     SELECT time AS time_utc, temp AS actual_temp
     FROM {project_id}.{dataset_id}.actual

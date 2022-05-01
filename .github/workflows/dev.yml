@@ -6,7 +6,7 @@ on:
       - dev
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: weather-tracker
+  APP_ID: weather-tracker-dev
   RUN_REGION: us-west1
   SA_KEY_JSON: ${{ secrets.GCP_KEY }}
 jobs:
