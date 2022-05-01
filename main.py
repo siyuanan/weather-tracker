@@ -17,35 +17,43 @@ dataset_id = 'weather_data'
 
 # city_list = ['Chicago', 'West Des Moines', 'Seattle']
 
-
 @app.route("/", methods = ['GET', 'POST'])
-def home_page():
+def home():
+    # get input from user
+    city = str(request.form.get('city'))
 
     # get current available city in the data
     client = bigquery.Client(project=project_id)
     query = f'''
-    SELECT * FROM {project_id}.{dataset_id}.city
-    '''
+        SELECT * FROM {project_id}.{dataset_id}.city
+        WHERE city != 'None'
+        '''
     query_job = client.query(query)
     cities = query_job.to_dataframe()
     city_list = [c for c in cities['city'].to_list() if c != 'None']
 
-    # default city
-    city = 'Chicago'
-
-    # get input from user
-    # city = str(request.form.get('city'))
     if city not in city_list:
         city_list.append(city)
         table_id = f"{project_id}.{dataset_id}.city"
         city_df = pd.DataFrame({
             'city': city
-        }, index = [0])
-        client = bigquery.Client(project = project_id)
+        }, index=[0])
+        client = bigquery.Client(project=project_id)
         job = client.load_table_from_dataframe(
             city_df, table_id
         )
         job.result()
+
+        return render_template("home.html")
+
+
+@app.route("/forecast", methods = ['GET', 'POST'])
+def forecast():
+    # default city
+    city = 'Chicago'
+
+    # get input from user
+    city = str(request.form.get('city'))
 
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}"
     r_c = requests.get(url).json()
@@ -111,7 +119,7 @@ def home_page():
     value1 = data['actual_temp'].values.tolist()
     value2 = data['forecast_temp'].values.tolist()
 
-    return render_template("main.html",
+    return render_template("forecast.html",
                            weather_dict = current,
                            table1 = [data.to_html(classes = 'data')],
                            title1 = data.columns.values,
