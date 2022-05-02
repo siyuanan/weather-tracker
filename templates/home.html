@@ -11,6 +11,10 @@
          background-size: cover;
          background-image:url({{ url_for('static', filename = 'home.jpg') }})
         }
+
+        h1 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
     </style>
 </head>
 
@@ -23,8 +27,8 @@
 <!--</body>-->
 
 <body>
-<form action="/forecast" method = "POST">
-    <p>City Name<input type = "text" name = city style = "color: #F0FFFF"/></p>
+<form action="/forecast" method = "POST" style="text-align: center; ">
+    <p><input type = "text" name = city style = "color: #F0FFFF"/></p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 </body>
