@@ -119,7 +119,7 @@ def weather_forecast():
     model = ARIMA(actual['actual_temp'], order = (1, 1, 1)).fit()
     temp_model = model.forecast()
     temp_api = forecast.loc[0, 'forecast_temp']
-    fcst_time = forecast.loc[0, 'forecast_time']
+    fcst_time = forecast.loc[0, 'time']
     actual['ARIMA in-sample'] = model.predict()
 
     # combine all data
