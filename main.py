@@ -16,7 +16,6 @@ API_KEY = '03b8c4d4af0e87a4c9ac54e1c7b30517'
 project_id = 'weather-tracker-344603'
 dataset_id = 'weather_data'
 
-# city_list = ['Chicago', 'West Des Moines', 'Seattle']
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
@@ -117,7 +116,7 @@ def weather_forecast():
 
     # ARIMA forecast
     model = ARIMA(actual['actual_temp'], order = (1, 1, 1)).fit()
-    temp_model = model.forecast()
+    temp_model = model.forecast().values[0]
     temp_api = forecast.loc[0, 'forecast_temp']
     fcst_time = forecast.loc[0, 'time']
     actual['ARIMA in-sample'] = model.predict()
