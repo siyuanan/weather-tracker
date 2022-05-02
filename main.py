@@ -123,7 +123,7 @@ def weather_forecast():
     actual['ARIMA in-sample'] = model.predict()
 
     # combine all data
-    data = actual[['time', 'actual_temp']].merge(forecast, on='time', how='outer').fillna(0)
+    data = actual[['time', 'actual_temp', 'ARIMA in-sample']].merge(forecast, on='time', how='outer').fillna(0)
 
     labels = list(data['time'].astype(str))
     value1 = data['actual_temp'].values.tolist()
