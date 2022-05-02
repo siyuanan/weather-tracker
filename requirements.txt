@@ -12,4 +12,4 @@ gunicorn==20.0.4
 google-cloud-bigquery
 pyarrow
 db-dtypes
-statsmodels
+statsmodels==0.13.1

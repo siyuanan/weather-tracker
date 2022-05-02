@@ -24,6 +24,11 @@
 
     <h3> Feels like: {{ weather_dict['feels_like'] | safe }} °C</h3>
 
+    <h3> Next Weather Timestamp: {{ fcst_time | safe }}</h3>
+
+    <h3> ARIMA Model Forecast: {{ temp_model }} °C</h3>
+    <h3> Open Weather API Forecast: {{ temp_api }} °C</h3>
+
 <!--    <body>-->
 <!--        {% for table in table1 %}-->
 <!--        {{title1[loop.index]}}-->
@@ -53,8 +58,14 @@
                         fill: false,
                         borderColor: '#fc8403'
                     }, {
-                        label: 'forecast temperature',
+                        label: 'ARIMA in-sample prediction',
                         data: {{ value2 | safe }},
+                        borderWidth: 3,
+                        fill: false,
+                        borderColor: '#97FFFF'
+                    }, {
+                        label: 'forecast temperature',
+                        data: {{ value3 | safe }},
                         borderWidth: 5,
                         fill: false,
                         borderColor: '#6b9362'

@@ -50,7 +50,7 @@ def home():
 @app.route("/forecast", methods = ['GET', 'POST'])
 def weather_forecast():
     # default city
-    city = 'Chicago'
+    # city = 'Chicago'
 
     # get input from user
     city = str(request.form.get('city'))
@@ -112,13 +112,23 @@ def weather_forecast():
     forecast = forecast[forecast['time'] >= datetime.datetime.now()]
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
+    forecast.reset_index(drop=True, inplace=True)
     # forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
 
+    # ARIMA forecast
+    model = ARIMA(actual['actual_temp'], order = (1, 1, 1)).fit()
+    temp_model = model.forecast()
+    temp_api = forecast.loc[0, 'forecast_temp']
+    fcst_time = forecast.loc[0, 'forecast_time']
+    actual['ARIMA in-sample'] = model.predict()
+
+    # combine all data
     data = actual[['time', 'actual_temp']].merge(forecast, on='time', how='outer').fillna(0)
 
     labels = list(data['time'].astype(str))
     value1 = data['actual_temp'].values.tolist()
-    value2 = data['forecast_temp'].values.tolist()
+    value2 = data['ARIMA in-sample'].values.tolist()
+    value3 = data['forecast_temp'].values.tolist()
 
     return render_template("forecast.html",
                            weather_dict = current,
@@ -127,7 +137,11 @@ def weather_forecast():
                            city_name = city,
                            labels = labels,
                            value1 = value1,
-                           value2 = value2
+                           value2 = value2,
+                           value3 = value3,
+                           temp_model = temp_model,
+                           temp_api = temp_api,
+                           fcst_time = fcst_time
                            )
 
 

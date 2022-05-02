@@ -22,13 +22,9 @@
     Type in city name to see current weather and forecast
 </h1>
 
-<!--<body>-->
-<!--    <img src = "{{ url_for('static', filename = 'home.jpg') }}" height = '1000', width = 2000>-->
-<!--</body>-->
-
 <body>
 <form action="/forecast" method = "POST" style="text-align: center; ">
-    <p><input type = "text" name = city style = "color: #F0FFFF"/></p>
+    <p><input type = "text" name = city /></p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 </body>
