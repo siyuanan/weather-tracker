@@ -8,20 +8,27 @@ import pandas as pd
 import datetime
 from google.cloud import bigquery
 
-project_id = 'weather-tracker-344603'
-dataset_id = 'weather_data'
+project_id  = 'weather-tracker-344603'
+dataset_id  = 'weather_data'
 current_table = 'actual'
 forecast_table = 'forecast'
 
-# city_list = ['Chicago', 'West Des Moines', 'Seattle']
-# city_list = ['Los Angeles', 'Las Vegas']
+# city_list = ['Chicago', 'West Des Moines', 'Seattle', 'Los Angeles', 'Las Vegas']
 
-# the two inputs are not used in the function
-# but without the two inputs, the function cannot run on cloud function
+
 def current_weather(event, data):
     # get current weather for the cities in city_list
     # then save the data to BigQuery table
     # run every 3 hours
+
+    # get current available city in the data
+    client = bigquery.Client(project=project_id)
+    query = f'''
+    SELECT * FROM {project_id}.{dataset_id}.city
+    '''
+    query_job = client.query(query)
+    cities = query_job.to_dataframe()
+    city_list = [c for c in cities['city'].to_list() if c != 'None']
 
     table_id = f"{project_id}.{dataset_id}.{current_table}"
 
@@ -68,7 +75,6 @@ def current_weather(event, data):
     return True
 
 
-# function to pull forecast data
 def weather_forecast(event, data):
     # get current weather for the cities in city_list
     # then save the data to BigQuery table
@@ -131,4 +137,3 @@ def weather_forecast(event, data):
         job.result()  # Wait for the job to complete.
 
     return True
-
