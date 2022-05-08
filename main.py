@@ -18,6 +18,7 @@ dataset_id = 'weather_data'
 
 
 @app.route("/", methods = ['GET', 'POST'])
+@app.route("/home", methods = ['GET', 'POST'])
 def home():
     # get input from user
     city = str(request.form.get('city'))
@@ -97,8 +98,6 @@ def weather_forecast():
     actual['time_list'] = actual['time_utc'].astype(str).apply(lambda x: re.split(' |:|-', x))
     actual['time'] = actual['time_list'].apply(
         lambda x: datetime.datetime(int(x[0]), int(x[1]), int(x[2]), int(x[3])) + relativedelta(hours=-5))
-    # actual['time'] = actual['time'].dt.tz_convert(tz = 'US/Central').dt.tz_localize(None)
-    # actual['time'] = actual['time'].dt.strftime("%Y-%m-%d %H:00")
 
     query = f'''
     SELECT created_at, forecast_time AS time, temp AS forecast_temp
@@ -112,7 +111,6 @@ def weather_forecast():
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
     forecast.reset_index(drop=True, inplace=True)
-    # forecast['time'] = forecast['time'].dt.strftime("%Y-%m-%d %H:00")
 
     # ARIMA forecast
     model = ARIMA(actual['actual_temp'], order = (1, 1, 1)).fit()

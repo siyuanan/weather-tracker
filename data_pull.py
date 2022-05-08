@@ -8,12 +8,10 @@ import pandas as pd
 import datetime
 from google.cloud import bigquery
 
-project_id  = 'weather-tracker-344603'
-dataset_id  = 'weather_data'
+project_id = 'weather-tracker-344603'
+dataset_id = 'weather_data'
 current_table = 'actual'
 forecast_table = 'forecast'
-
-# city_list = ['Chicago', 'West Des Moines', 'Seattle', 'Los Angeles', 'Las Vegas']
 
 
 def current_weather(event, data):
@@ -61,8 +59,6 @@ def current_weather(event, data):
             'country': r_c['sys']['country']
         }
         row = pd.DataFrame(current, index=[0])
-
-        # print(row)
 
         # Construct a BigQuery client object.
         client = bigquery.Client(project = project_id)
@@ -125,8 +121,6 @@ def weather_forecast(event, data):
               'population': r_f['city']['population']
             })
         rows = pd.DataFrame(forecast)
-
-        # print(row)
 
         # Construct a BigQuery client object.
         client = bigquery.Client(project = project_id)
