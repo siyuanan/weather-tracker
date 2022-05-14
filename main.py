@@ -118,9 +118,10 @@ def weather_forecast():
     temp_api = forecast.loc[0, 'forecast_temp']
     fcst_time = forecast.loc[0, 'time']
     actual['ARIMA in-sample'] = model.predict()
+    actual_sub = actual.tail(40)
 
     # combine all data
-    data = actual[['time', 'actual_temp', 'ARIMA in-sample']].merge(forecast, on='time', how='outer').fillna(0)
+    data = actual_sub[['time', 'actual_temp', 'ARIMA in-sample']].merge(forecast, on='time', how='outer').fillna(0)
 
     labels = list(data['time'].astype(str))
     value1 = data['actual_temp'].values.tolist()
