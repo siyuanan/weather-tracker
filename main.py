@@ -107,9 +107,9 @@ def weather_forecast():
     ORDER BY created_at, forecast_time
     '''
     query_job = client.query(query)
-    forecast = query_job.to_dataframe()
-    forecast = forecast[forecast['time'] > actual_time]
-    forecast = forecast.drop_duplicates(subset=['time'], keep='last')
+    forecast_all = query_job.to_dataframe()
+    forecast_all = forecast_all[forecast_all['time'] > actual_time]
+    forecast = forecast_all.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
     forecast.reset_index(drop=True, inplace=True)
 
@@ -121,14 +121,24 @@ def weather_forecast():
     actual['ARIMA in-sample'] = model.predict()
     actual_sub = actual.tail(80)
 
+    # forecast made on different time (created_at)
+    fcst2 = forecast_all[forecast_all['time'] == fcst_time][['created_at', 'forecast_temp']]
+    fcst2.sort_values('created_at', inplace = True)
+
     # weather forecast icon
     icon_dict = {}
     for i in range(8):
         icon_dict[str(forecast.loc[i, 'time']).split(' ')[1]] = forecast.loc[i, 'weather_icon']
-    forecast.drop('weather_icon', axis=1, inplace=True)
+    # forecast.drop('weather_icon', axis=1, inplace=True)
 
     # combine all data
-    data = actual_sub[['time', 'actual_temp', 'ARIMA in-sample']].merge(forecast, on='time', how='outer').fillna(0)
+    data = actual_sub[[
+        'time', 'actual_temp', 'ARIMA in-sample'
+    ]].merge(
+        forecast[['time', 'forecast_temp']],
+        on='time',
+        how='outer'
+    ).fillna(0)
 
     labels = list(data['time'].astype(str))
     value1 = data['actual_temp'].values.tolist()
@@ -147,7 +157,9 @@ def weather_forecast():
                            temp_model = temp_model,
                            temp_api = temp_api,
                            fcst_time = fcst_time,
-                           icon_dict = icon_dict
+                           icon_dict = icon_dict,
+                           fcst2 = [fcst2.to_html(classes = 'data')],
+                           title2 = fcst2.columns.values
                            )
 
 
