@@ -122,7 +122,7 @@ def weather_forecast():
     actual_sub = actual.tail(80)
 
     # forecast made on different time (created_at)
-    fcst2 = forecast_all[forecast_all['time'] == fcst_time][['created_at', 'forecast_temp']]
+    fcst2 = forecast_all[forecast_all['time'] == fcst_time][['created_at', 'time', 'forecast_temp']]
     fcst2.sort_values('created_at', inplace = True)
 
     # weather forecast icon
