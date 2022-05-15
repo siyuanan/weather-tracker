@@ -145,6 +145,9 @@ def weather_forecast():
     value2 = data['ARIMA in-sample'].values.tolist()
     value3 = data['forecast_temp'].values.tolist()
 
+    label2 = list(fcst2['created_at'].apply(lambda x: str(x).split(':')[0] + ':30'))
+    value21 = fcst2['forecast_temp'].values.tolist()
+
     return render_template("forecast.html",
                            weather_dict = current,
                            table1 = [data.to_html(classes = 'data')],
@@ -159,7 +162,9 @@ def weather_forecast():
                            fcst_time = fcst_time,
                            icon_dict = icon_dict,
                            fcst2 = [fcst2.to_html(classes = 'data')],
-                           title2 = fcst2.columns.values
+                           title2 = fcst2.columns.values,
+                           label2 = label2,
+                           value21 = value21
                            )
 
 
