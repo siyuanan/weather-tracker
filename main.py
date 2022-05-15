@@ -146,7 +146,8 @@ def weather_forecast():
                            value3 = value3,
                            temp_model = temp_model,
                            temp_api = temp_api,
-                           fcst_time = fcst_time
+                           fcst_time = fcst_time,
+                           icon_dict = icon_dict
                            )
 
 
