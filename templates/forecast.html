@@ -27,8 +27,9 @@
 
 <!--    <h3> Temperature: {{ weather_dict['temp'] | safe }} °C</h3>-->
 
-    <h3> Feels like: {{ weather_dict['feels_like'] | safe }} °C</h3>
+    <h2> Feels like: {{ weather_dict['feels_like'] | safe }} °C</h2>
 
+    <h3>Next 24h Forecast</h3>
     <div>
         <table border = 1>
         <tr>
@@ -49,10 +50,10 @@
         </table>
     </div>
 
-    <body> Weather at: {{ fcst_time | safe }}</body>
+    <h3> <br>Weather at: {{ fcst_time | safe }}</h3>
 
-    <h3> ARIMA Model Forecast: {{ temp_model }} °C</h3>
-    <h3> Open Weather API Forecast: {{ temp_api }} °C</h3>
+    <body> ARIMA Model Forecast: {{ temp_model }} °C</body>
+    <body> Open Weather API Forecast: {{ temp_api }} °C</body>
 
 <!--    <body>-->
 <!--        {% for table in table1 %}-->
@@ -61,9 +62,9 @@
 <!--        {% endfor %}-->
 <!--    </body>-->
 
-    <h2>
-    Recent Trend in {{ city_name | safe }}
-    </h2>
+<!--    <h2>-->
+<!--    Recent Trend in {{ city_name | safe }}-->
+<!--    </h2>-->
 
     <h3 align = "center"> Temperature Actual and Forecast </h3>
     <body>
