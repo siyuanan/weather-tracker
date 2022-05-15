@@ -98,27 +98,34 @@ def weather_forecast():
     actual['time_list'] = actual['time_utc'].astype(str).apply(lambda x: re.split(' |:|-', x))
     actual['time'] = actual['time_list'].apply(
         lambda x: datetime.datetime(int(x[0]), int(x[1]), int(x[2]), int(x[3])) + relativedelta(hours=-5))
+    actual_time = actual['time'].max()
 
     query = f'''
-    SELECT created_at, forecast_time AS time, temp AS forecast_temp
+    SELECT created_at, forecast_time AS time, temp AS forecast_temp, weather_icon
     FROM {project_id}.{dataset_id}.forecast
     WHERE city = '{city}'
     ORDER BY created_at, forecast_time
     '''
     query_job = client.query(query)
     forecast = query_job.to_dataframe()
-    forecast = forecast[forecast['time'] >= datetime.datetime.now()]
+    forecast = forecast[forecast['time'] > actual_time]
     forecast = forecast.drop_duplicates(subset=['time'], keep='last')
     forecast.drop('created_at', axis=1, inplace=True)
     forecast.reset_index(drop=True, inplace=True)
 
     # ARIMA forecast
-    model = ARIMA(actual['actual_temp'], order = (1, 1, 1)).fit()
+    model = ARIMA(actual['actual_temp'], order = (2, 1, 1)).fit()
     temp_model = round(model.forecast().values[0], 1)
     temp_api = forecast.loc[0, 'forecast_temp']
     fcst_time = forecast.loc[0, 'time']
     actual['ARIMA in-sample'] = model.predict()
-    actual_sub = actual.tail(40)
+    actual_sub = actual.tail(80)
+
+    # weather forecast icon
+    icon_dict = {}
+    for i in range(8):
+        icon_dict[str(forecast.loc[i, 'time']).split(' ')[1]] = forecast.loc[i, 'weather_icon']
+    forecast.drop('weather_icon', axis=1, inplace=True)
 
     # combine all data
     data = actual_sub[['time', 'actual_temp', 'ARIMA in-sample']].merge(forecast, on='time', how='outer').fillna(0)

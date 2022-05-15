@@ -29,7 +29,27 @@
 
     <h3> Feels like: {{ weather_dict['feels_like'] | safe }} °C</h3>
 
-    <body> Next Weather Timestamp: {{ fcst_time | safe }}</body>
+    <div>
+        <table border = 1>
+        <tr>
+        {% for ts, icon in icon_dict.items() %}
+        <td>
+            <body>{{ts}}</body>
+        </td>
+        {% endfor %}
+        </tr>
+
+        <tr>
+        {% for ts, icon in icon_dict.items() %}
+        <td>
+            <img src="http://openweathermap.org/img/w/{{ icon | safe }}.png" alt="Image">
+        </td>
+        {% endfor %}
+        </tr>
+        </table>
+    </div>
+
+    <body> Weather at: {{ fcst_time | safe }}</body>
 
     <h3> ARIMA Model Forecast: {{ temp_model }} °C</h3>
     <h3> Open Weather API Forecast: {{ temp_api }} °C</h3>
