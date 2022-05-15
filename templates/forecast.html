@@ -50,7 +50,7 @@
         </table>
     </div>
 
-    <h3> <br>Weather at: {{ fcst_time | safe }}</h3>
+    <h3> <br>Weather Forecast at: {{ fcst_time | safe }}</h3>
 
     <body> ARIMA Model Forecast: {{ temp_model }} °C<br></body>
     <body> Open Weather API Forecast: {{ temp_api }} °C</body>
@@ -62,7 +62,7 @@
 <!--        {% endfor %}-->
 <!--    </body>-->
 
-    <h3 align = "center"> Forecast Made on Different Timestamps </h3>
+    <h3 align = "center"> Forecast Made on Different Timestamps for {{fcst_time | safe}}</h3>
     <body>
         <div align = "center">
             <canvas id="Chart2" width = "900" height = "500"></canvas>
